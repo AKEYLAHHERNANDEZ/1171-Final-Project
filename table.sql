@@ -217,3 +217,36 @@ FROM Credentials as c
 INNER JOIN Program as p
 ON p.program_code = p.program_code
 WHERE p.program_code = 'BINT';
+
+
+
+--My queries
+--random queries: 1-5
+--1.Find the feeder(s) that have the most students enrolled.
+SELECT feeder.school_name, COUNT(*) AS num_students
+FROM feeder
+JOIN students ON feeder.feeder_id = students.feeder_id
+GROUP BY feeder.school_name
+ORDER BY num_students DESC
+LIMIT 1;
+
+--2.List all courses offered by a specific program.
+SELECT course.course_title, course.course_code, program.program_name
+FROM course_program
+JOIN program ON program.program_id = course_program.program_id
+JOIN course ON course.course_id = course_program.course_id
+WHERE program.program_name = &#39;Information Technology&#39;;
+
+--3.Calculate the average semester GPA for a specific student.
+SELECT AVG(grades_and_status.semester_gpa)
+FROM grades_and_status
+WHERE grades_and_status.student_id = 1;
+
+--4. Select only the student_id and ethnicity columns for all rows
+SELECT student_id, ethnicity FROM Students;
+
+--5.List all courses taken by a specific student and the corresponding grades received
+SELECT course.course_code, course.course_title, grades_and_status.course_grade
+FROM grades_and_status
+JOIN course ON course.course_id = grades_and_status.course_id
+WHERE grades_and_status.student_id = 1;
