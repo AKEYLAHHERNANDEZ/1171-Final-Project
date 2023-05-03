@@ -9,7 +9,7 @@ FROM
     Students as s 
     INNER JOIN Feeder as f ON f.Feeder_id = s.Feeder_id 
     INNER JOIN Credentials as c ON c.Student_id = s.Student_id 
-    INNER JOIN Program as p ON p.Program_id = c.Program_id 
+    INNER JOIN Program as p ON p.Program_id = p.Program_id 
 WHERE 
     p.program_code = 'BINT' 
 GROUP BY 
@@ -28,7 +28,7 @@ ORDER BY
 
 --2.Determine the average GPA of students who pass the most difficult IT and Math courses.
 SELECT 
-    gs.course_title, 
+    c.course_title, 
     AVG(gs.course_gpa) as avg_gpa 
 FROM 
     Grades_and_status as gs 
@@ -37,10 +37,9 @@ WHERE
     c.course_title LIKE '%Math%' OR c.course_title LIKE '%IT%' 
     AND gs.course_grade NOT IN ('F', 'D', 'D+', 'D-', 'F-', 'NP') 
 GROUP BY 
-    gs.course_title 
+    c.course_title 
 ORDER BY 
     avg_gpa DESC;
-
 
 --Explanation: This query identifies the IT and Math courses 
 --that are considered the most difficult (based on the fact that only
